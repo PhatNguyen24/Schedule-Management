@@ -1,0 +1,98 @@
+body{
+    font-size: 14px;
+    font-family: "Helvetica Nuee", Helvetica,Arial, sans-serif !important;
+    color: #333;
+}
+a{
+    text-decoration: none;
+    color: #333;
+}
+a:hover{
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+.h2{
+    font-size: 19px !important;
+    font-weight: 600;
+}
+.h3{
+    font-size: 17px !important;
+}
+.fw-600{
+    font-weight: 600 !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+.hover-gray:hover{
+    color: white!important;
+    background: gray;
+}
+.card-complete{
+    border-left: 4px solid green !important;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.4);
+}
+.card-ongoing{
+    border-left: 4px solid blue !important;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.4);
+}
+
+.hover-shadow:hover{
+    box-shadow: 0px 0px 4px gray;
+
+}
+.chosen-user{
+    position: relative;
+
+}
+.chosen-user .row::before{
+    content: "\2713";
+    display: block;
+    text-align: center;
+    line-height: 2rem;
+    color: white;
+    font-weight: bolder;
+    font-size: 30px;
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    top: 10px;
+    left: 10px;
+    border-radius: 50%;
+    background: rgba(108, 233, 97, 0.9);
+    z-index: 999;
+
+}
+#project-area{
+    max-height: 550px;
+    overflow-y: auto;
+}
+#task-area{
+    max-width: 100%;
+    overflow-x: auto;
+}
+ul#area-add-tasks{
+    min-height: 100px !important;
+    max-height: 200px !important;
+    width: 100%;
+    overflow-y: auto;
+    word-break: break-all;
+
+}
+html {
+    height: 100%;
+  }
+body {
+    min-height: 100%;
+}
+.btn-task-remove{
+    position: absolute;
+    top: 0px;
+    right: 1rem;
+    z-index: 999;
+}
+@media screen and (max-width:768px){
+    html {
+        height: auto;
+      }
+}
+
