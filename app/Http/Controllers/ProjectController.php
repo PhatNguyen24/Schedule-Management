@@ -98,7 +98,7 @@ class ProjectController extends Controller
         $manager_pxu_id = ProjectsXUsers::where([['project_id','=',$id],['role','=',1]])->get('pxu_id')->toArray();
 
         $curr_pxu_id = ProjectsXUsers::where('user_id',Auth::user()->user_id)->get('pxu_id')->toArray();
-        Log::info('test', [$pxus]);
+        // Log::info('test', [$pxus]);
         return view('project', [
             'projectObj' => $project,
             'pxus' => $pxus,
@@ -169,10 +169,12 @@ class ProjectController extends Controller
         return ($users);
     }
 
-    public function addUser(Request $request) //thêm nhân sự cho project
+    public function addUser(Request $request)
     {
         foreach ($request->input('userIds') as $userId) {
-            if (!(ProjectsXUsers::where('user_id', $userId)->count() > 0)) {
+            if (!(ProjectsXUsers::where('user_id', $userId)
+                                ->where('project_id', $request->input('project_id'))
+                                ->count() > 0)) {
                 $pxu = new ProjectsXUsers();
                 $pxu->project_id = $request->input('project_id');
                 $pxu->user_id = $userId;
@@ -180,9 +182,14 @@ class ProjectController extends Controller
                 $pxu->save();
             }
         }
-        $joinedUsers = ProjectsXUsers::with('user')->where('project_id', $request->input('project_id'))->get();
+
+        $joinedUsers = ProjectsXUsers::with('user')
+                                    ->where('project_id', $request->input('project_id'))
+                                    ->get();
+
         return $joinedUsers;
     }
+
 
     public function getProjectsUsers(Request $request) //lấy thông tin người đùng tham gia dự án
     {
