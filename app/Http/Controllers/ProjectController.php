@@ -8,6 +8,7 @@ use App\User;
 use App\ProjectsXUsers;
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
@@ -45,7 +46,7 @@ class ProjectController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)  //thêm dự án
     {
         $project = new Project;
         $task = new Task;
@@ -75,9 +76,10 @@ class ProjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) //show dự án
     {
         $project = Project::find($id);
+        // Log::info('Project Joined ID:', [$id]); 
         $tasks = Project::with('tasks')->find($id)->getRelations()['tasks']->toArray();
         $subtasks = [];
         usort($tasks, function ($a, $b) {
@@ -88,9 +90,15 @@ class ProjectController extends Controller
         foreach ($tasks as $task) {
             $subtasks[$task['task_id']] = SubTask::where('task_id', $task['task_id'])->get()->toArray();
         }
-        $pxus = ProjectsXUsers::with('user')->get();
+        $pxus = ProjectsXUsers::with('user')
+        ->where('project_id', $id) // Thêm điều kiện project_id bằng $id
+        ->get();
+
+        // Log::info('Project Joined ID:', [$pxus]); 
         $manager_pxu_id = ProjectsXUsers::where([['project_id','=',$id],['role','=',1]])->get('pxu_id')->toArray();
+
         $curr_pxu_id = ProjectsXUsers::where('user_id',Auth::user()->user_id)->get('pxu_id')->toArray();
+        Log::info('test', [$pxus]);
         return view('project', [
             'projectObj' => $project,
             'pxus' => $pxus,
@@ -120,7 +128,7 @@ class ProjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) //update project
     {
         $validator = $request->validate([
             'project_name' => 'required',
@@ -140,7 +148,7 @@ class ProjectController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id)  // xoá project
     {
         $pxu_ids = ProjectsXUsers::where('project_id', $id)->get('pxu_id')->implode('pxu_id', ',');
         // return ($pxu_ids);
@@ -150,7 +158,7 @@ class ProjectController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function searchUser(Request $request)
+    public function searchUser(Request $request)  //search nhân sự trong phần thêm nhân sự
     {
         $keyword = $request->input('keyword');
         $project_id = $request->input('id');
@@ -161,7 +169,7 @@ class ProjectController extends Controller
         return ($users);
     }
 
-    public function addUser(Request $request)
+    public function addUser(Request $request) //thêm nhân sự cho project
     {
         foreach ($request->input('userIds') as $userId) {
             if (!(ProjectsXUsers::where('user_id', $userId)->count() > 0)) {
@@ -176,14 +184,14 @@ class ProjectController extends Controller
         return $joinedUsers;
     }
 
-    public function getProjectsUsers(Request $request)
+    public function getProjectsUsers(Request $request) //lấy thông tin người đùng tham gia dự án
     {
 //        $userIds = ProjectsXUsers::where('project_id',$request->input('project_id'))->get('user_id')->toArray();
         $joinedUsers = ProjectsXUsers::with('user')->where('project_id', $request->input('project_id'))->get();
         return $joinedUsers;
     }
 
-    public function addTask(Request $request)
+    public function addTask(Request $request) // thêm nhiệm vụ
     {
         $data = $request->all();
         $newtask = new Task();
@@ -198,7 +206,7 @@ class ProjectController extends Controller
         return redirect()->back();
     }
 
-    public function editTask(Request $request)
+    public function editTask(Request $request) // sửa nhiệm vụ
     {
         $data = $request->all();
         $task = Task::find($data['task_id']);

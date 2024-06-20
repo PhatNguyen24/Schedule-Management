@@ -253,7 +253,7 @@
                         <h5 class="modal-title">Thêm công việc</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                        </button>
+                        </button>   
                     </div>
                     <div class="modal-body">
                         <form id="fm-add-task" action="{{route('project.addtask')}}" method="post">
