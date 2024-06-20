@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
+    // Log::info('Project Joined ID:', [$id]); 
     /**
      * Display a listing of the resource.
      *
@@ -98,7 +99,9 @@ class ProjectController extends Controller
         $manager_pxu_id = ProjectsXUsers::where([['project_id','=',$id],['role','=',1]])->get('pxu_id')->toArray();
 
         $curr_pxu_id = ProjectsXUsers::where('user_id',Auth::user()->user_id)->get('pxu_id')->toArray();
-        // Log::info('test', [$pxus]);
+        Log::info('test', [$pxus]);
+        // Log::info('test', [$manager_pxu_id]);
+        // Log::info('test', [$curr_pxu_id]);
         return view('project', [
             'projectObj' => $project,
             'pxus' => $pxus,
@@ -258,11 +261,16 @@ class ProjectController extends Controller
     }
     public function delUser(Request $request){
         $data = $request->all();
+        Log::info('test:', [$data]); 
         $pxu = ProjectsXUsers::where('user_id',$data['user_id'])->get('pxu_id')->toArray();
         $task = Task::where('pxu_id',$pxu[0])->get('task_id')->toArray();
         SubTask::whereIn('task_id',$task)->delete();
         Task::where('pxu_id',$pxu[0])->delete();
-        ProjectsXUsers::where('user_id',$data['user_id'])->delete();
+        
+        ProjectsXUsers::where('user_id', $data['user_id'])
+        ->where('project_id', $data['project_id'])
+        ->delete();
+
         return redirect()->back();
     }
     private function updateProjectProcess($id){

@@ -57,6 +57,7 @@
                             @foreach ($pxus as $pxu)
                                 <a href="https://www.google.com"
                                    data-userid="{{$pxu->user->user_id}}"
+                                   {{-- data-pxuid="{{$pxu->pux_id}}" --}}
                                    class="d-flex justify-content-between align-items-center mb-1 list-group-item list-group-item-action">
                                     <div class="media action">
                                         <span class="d-flex justify-content-start">
@@ -68,9 +69,9 @@
                                             </div>
                                         </span>
                                     </div>
-                                    @if ($currPXU == $managerPXU )
+                                    {{-- @if ($currPXU == $managerPXU ) --}}
                                         <i class="fa fa-remove btn-remove-user h3 text-danger" aria-hidden="true"></i>
-                                    @endif
+                                    {{-- @endif --}}
                                     @if ($pxu->role == 1)
                                         <i class="fa fa-user-circle h3 text-primary" aria-hidden="true"></i>
                                     @endif
@@ -472,7 +473,11 @@
                 e.stopPropagation();
                 e.preventDefault();
                 if (confirm('Xóa người dùng này đồng thời xóa các công việc họ đang đảm nhận?')) {
-                    data = {user_id: $(this).parents('a').attr('data-userid')};
+                    data = {
+                        user_id: $(this).parents('a').attr('data-userid'),
+                        project_id: {{$pxus[0]->project_id}}
+                    };
+                    // data = {pxu_id: $(this).parents('a').attr('data-pxuid')};
                     $.ajax({
                         type: 'POST',
                         async: false,
