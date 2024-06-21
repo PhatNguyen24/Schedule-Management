@@ -16,7 +16,9 @@
                         </div>
                     </div>
                 </form>
+                @if ($currUser->user_role != 0)
                 <a id="btn-add-project" class="btn border hover-gray"  href="#modal-add-project" data-toggle="modal" role="button"><i class="fa fa-plus" aria-hidden="true"></i><span class="d-none d-md-inline"> Thêm Dự Án</span></a>
+                @endif
             </header>
 
             <div id="project-area" class="row pt-3 pb-2 pr-3 pl-3">
@@ -41,8 +43,8 @@
                                     </li>
                                     <li class="list-group-item pt-3 pb-0">
                                         <div class="progress">
-                                            <div class="progress-bar bg-primary font-weight-bold" role="progressbar" style="width: {{$project->process}}%;"
-                                                aria-valuenow="{{$project->process}}" aria-valuemin="0" aria-valuemax="100">{{$project->process}}%</div>
+                                            <div class="progress-bar bg-primary font-weight-bold" role="progressbar" style="width: {{$project->project_process}}%;"
+                                                aria-valuenow="{{$project->project_process}}" aria-valuemin="0" aria-valuemax="100">{{$project->project_process}}%</div>
                                         </div>
                                     </li>
                                 </ul>

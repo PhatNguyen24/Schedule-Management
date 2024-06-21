@@ -48,7 +48,7 @@
                         <h3 class="border-bottom p-2 d-flex justify-content-between">
                             <span>Nhân sự</span>
                             <a href="#modal-add-employee" data-toggle="modal">
-                                @if ($currPXU == $managerPXU)
+                                @if ($curuser->user_id == $projectObj->project_manager_id)
                                 <i class="fa fa-user-plus text-success" aria-hidden="true"></i>
                                 @endif
                             </a>
@@ -96,7 +96,7 @@
                                  aria-valuemin="0" aria-valuemax="100">Tiến độ {{$projectObj->project_process}}%
                             </div>
                         </span>
-                        @if ($currPXU == $managerPXU)
+                        @if ($curuser->user_id == $projectObj->project_manager_id)
                         <a id="btn-modal-add-task" href="" data-toggle="modal">
                             <i class="fa fa-plus-circle text-success" aria-hidden="true"></i>
                         </a>
@@ -107,7 +107,7 @@
                         {{-- {{ dd($tasksWithPxus) }} --}}
                         {{-- {{ dd($currPXU) }} --}}
                         @foreach($tasksWithPxus as $task)
-                            @if ($currPXU == $managerPXU || $currPXU == $task['projects_has_users']['pxu_id'])
+                            @if ($projectObj->project_manager_id == $curuser->user_id || $currPXU == $task['projects_has_users']['pxu_id'])
                             
                             <div class="col-md-3 mb-2">
                                 @if ($currPXU == $managerPXU)
@@ -368,7 +368,7 @@
                                 <div class="form-group">
                                     <label for="task_name">Tên công việc</label>
                                     <input type="text" class="form-control" name="task_name" id="edit_task_name" required
-                                        @if ($currPXU != $managerPXU)
+                                    @if ($projectObj->project_manager_id != $currUser->user_id)
                                             readonly
                                         @endif
                                     >
@@ -391,7 +391,7 @@
                                         <label for="task_deadline">Thời hạn</label>
                                         <input type="date" class="form-control pl-1 pr-0" name="task_deadline"
                                                id="edit_task_deadline" required
-                                               @if ($currPXU != $managerPXU)
+                                               @if ($projectObj->project_manager_id != $currUser->user_id)
                                                 readonly
                                                 @endif>
                                     </div>
@@ -400,9 +400,9 @@
                             </div>
                             {{-- @if ($currPXU == $managerPXU) --}}
                             <div id="edit_form-group-employees" class="form-group border-bottom pb-3"
-                            @if ($currPXU != $managerPXU)
+                            @if ($projectObj->project_manager_id != $currUser->user_id)
                                                 style="display: none;"
-                                                @endif>>
+                                                @endif>
                                 <label for="pxu_id_name"> Người phụ trách</label>
                                 <a id="edit_collapse-tasks" class="" data-toggle="collapse"
                                    href="#edit_available-employees"
@@ -428,7 +428,7 @@
                             </div>
                             <div id="edit_task-subtasks" class="form-group">
                                 <label for="task_name">Mục tiêu</label>
-                                @if ($currPXU == $managerPXU)
+                                @if ($projectObj->project_manager_id == $currUser->user_id)
                                 <div class="input-group input-group-sm">
                                     <input type="text" name="sub_task_name" id="edit_sub_task_name" class="form-control"
                                            placeholder="Thêm mục tiêu">
@@ -465,6 +465,10 @@
         $(document).ready(function () {
             let currPXU = {{$currPXU}};
             let managerPXU = {{$managerPXU}};
+
+            let project_manager_id = {!! json_encode($projectObj->project_manager_id) !!};
+            let user_id = {!! json_encode($currUser->user_id) !!};
+
             let elemToHide = $('#task-progress,#task-subtasks,#area-add-tasks');
             let joinedUsers = {};
             window.addChosenClass = (element) => {
@@ -546,7 +550,7 @@
                     let deleteButton = ''; // Khởi tạo deleteButton mặc định là chuỗi rỗng
 
                     // Kiểm tra điều kiện nếu currPXU bằng managerPXU thì mới hiển thị nút X để xoá
-                    if (currPXU == managerPXU) {
+                    if (project_manager_id == user_id) {
                             deleteButton = '<a href="#" onclick="removeSubTask(this)" class="badge badge-danger d-flex align-items-center p-2">X</a>';
                     }
                     $('#fm-edit-task #area-add-tasks').append('<li  class="sub-task list-group-item border-0 d-flex justify-content-between">'
