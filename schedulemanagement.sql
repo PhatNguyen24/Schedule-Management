@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th6 19, 2024 lúc 01:07 PM
+-- Thời gian đã tạo: Th6 21, 2024 lúc 05:40 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `taskshare`
+-- Cơ sở dữ liệu: `schedulemanagement`
 --
 
 -- --------------------------------------------------------
@@ -42,7 +42,15 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`project_id`, `project_manager_id`, `project_name`, `project_detail`, `project_start_day`, `project_end_day`, `project_process`) VALUES
-(1, 1, 'project1', 'info project1 ...', '2024-06-19', '2024-08-30', 40);
+(1, 1, 'project1', 'info project1 .nm..', '2024-06-19', '2024-08-31', 14),
+(2, 1, 'project2', 'test2', '2024-06-20', '2024-06-28', 0),
+(3, 1, 'project2', 'haha', '2024-06-20', '2024-07-07', 0),
+(4, 1, 'project2', 'sd', '2024-06-20', '2024-07-06', 0),
+(5, 1, 'project3', 'ewrwre', '2024-06-21', '2024-06-04', 0),
+(6, 1, 'project4', 'ẻwe', '2024-06-21', '2024-07-06', 0),
+(7, 1, 'project5', 'haha', '2024-06-21', '2024-08-01', 0),
+(8, 2, 'sdfer', 'sdferge', '2024-06-21', '2024-07-05', 0),
+(10, 1, 'tesst', 'sdg', '2024-06-21', '2024-07-04', 0);
 
 -- --------------------------------------------------------
 
@@ -63,11 +71,18 @@ CREATE TABLE `projects_has_users` (
 
 INSERT INTO `projects_has_users` (`pxu_id`, `project_id`, `user_id`, `role`) VALUES
 (1, 1, 1, 1),
-(2, 1, 3, 0),
-(3, 1, 4, 0),
-(4, 1, 5, 0),
-(5, 1, 6, 0),
-(6, 1, 7, 0);
+(26, 4, 1, 1),
+(31, 1, 4, 0),
+(36, 1, 6, 0),
+(37, 1, 3, 0),
+(38, 5, 1, 1),
+(39, 6, 1, 1),
+(43, 5, 4, 0),
+(44, 4, 3, 0),
+(45, 7, 3, 0),
+(47, 8, 4, 0),
+(48, 8, 6, 0),
+(52, 6, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -87,8 +102,8 @@ CREATE TABLE `sub_tasks` (
 --
 
 INSERT INTO `sub_tasks` (`sub_id`, `task_id`, `sub_name`, `sub_state`) VALUES
-(1, 1, 'code clean', 1),
-(2, 1, 'càng sớm càng tốt', 1);
+(9, 9, 'sdfds', 1),
+(10, 14, 'qưe', 1);
 
 -- --------------------------------------------------------
 
@@ -109,11 +124,20 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`task_id`, `pxu_id`, `task_name`, `process`, `task_end`) VALUES
-(1, 2, 'task1', 100, '2024-06-21'),
-(2, 3, 'task2', 100, '2024-06-26'),
-(3, 4, 'task3', 0, '2024-06-26'),
-(4, 5, 'task4', 0, '2024-07-01'),
-(5, 6, 'task5', 0, '2024-07-10');
+(9, 31, 'ew', 100, '2024-06-29'),
+(11, 31, 'taks1', 0, '2024-06-29'),
+(12, 36, 'task1', 0, '2024-06-30'),
+(13, 31, 'ư', 0, '2024-07-06'),
+(14, 44, 'ưer', 0, '2024-06-28'),
+(15, 1, 'sdf', 0, '2024-06-26'),
+(16, 48, 'sf', 0, '2024-05-30'),
+(19, 39, 'ew', 0, '2024-06-22'),
+(20, 39, 'sfwer', 0, '2024-06-23'),
+(21, 52, 'sewr', 0, '2024-06-23'),
+(22, 31, 'task1', 0, '2024-06-29'),
+(23, 52, 'hhahah', 0, '2024-06-22'),
+(24, 37, 'ew', 0, '2024-06-28'),
+(25, 44, 'ưer', 0, '2024-07-05');
 
 -- --------------------------------------------------------
 
@@ -130,6 +154,7 @@ CREATE TABLE `users` (
   `user_birth` date NOT NULL DEFAULT '1990-01-01',
   `user_gender` tinyint(1) NOT NULL DEFAULT 0,
   `user_img` varchar(255) DEFAULT NULL,
+  `user_role` tinyint(1) DEFAULT 0,
   `remember_token` char(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -137,14 +162,14 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `password`, `user_fullname`, `user_email`, `user_birth`, `user_gender`, `user_img`, `remember_token`) VALUES
-(1, 'daiphat', '$2y$10$sGg/KTmjMGbFrpGzTH4S9eqr1j/LZoxwt9bQoXOATHOgjlL9FVxBi', 'Nguyen Dại Phat', 'daiphat2442003@gmail.com', '1990-01-01', 0, NULL, NULL),
-(2, 'hoangkhuyen', '$2y$10$isv.bCnCmh9w5CC5ybtwbOOlrd9CNU/PSB6vhDQ1ak8HaehiO5r0i', 'Hoàng Thị Khuyên', 'hoangthikhuyen@gmail.com', '1990-01-01', 0, NULL, NULL),
-(3, 'test1', '$2y$10$blMWco8qyzudIw9NMGUC4eJzuf86dA3YRYnkpC1X3zgSAgj.qVg9C', 'test1', 'test1@gmail.com', '1990-01-01', 0, NULL, NULL),
-(4, 'test2', '$2y$10$uLVNKOaPnjHpO9J2CeaDtuYqtK2eCHdfg9/2E6T4G8MUj18AVsUL.', 'test2', 'test2@gmail.com', '1990-01-01', 0, NULL, NULL),
-(5, 'test3', '$2y$10$uzSjNJWfX4ECWBkqjiQIOeLfk/NhrJTtrmuVgSI3ePqMoN8hS1Usi', 'test3', 'test3@gmail.com', '1990-01-01', 0, NULL, NULL),
-(6, 'test4', '$2y$10$TMFDE5p6JJpcOPoKG4mlyeZvHOXwJ2UD1qVASRgrKrQiZlzADXQ2q', 'test4', 'test4@gmail.com', '1990-01-01', 0, NULL, NULL),
-(7, 'test5', '$2y$10$9R6/RBgvXsuud/l84LOm4.ux3hG6FIpE6yLXtwMjAqDbnG.ubNDq2', 'test5', 'test5@gmail.com', '1990-01-01', 0, NULL, NULL);
+INSERT INTO `users` (`user_id`, `user_name`, `password`, `user_fullname`, `user_email`, `user_birth`, `user_gender`, `user_img`, `user_role`, `remember_token`) VALUES
+(1, 'daiphat', '$2y$10$sGg/KTmjMGbFrpGzTH4S9eqr1j/LZoxwt9bQoXOATHOgjlL9FVxBi', 'Nguyen Dại Phat', 'daiphat2442003@gmail.com', '1990-01-01', 0, NULL, 1, NULL),
+(2, 'hoangkhuyen', '$2y$10$isv.bCnCmh9w5CC5ybtwbOOlrd9CNU/PSB6vhDQ1ak8HaehiO5r0i', 'Hoàng Thị Khuyên', 'hoangthikhuyen@gmail.com', '1990-01-01', 0, NULL, 1, NULL),
+(3, 'test1', '$2y$10$blMWco8qyzudIw9NMGUC4eJzuf86dA3YRYnkpC1X3zgSAgj.qVg9C', 'test1', 'test1@gmail.com', '1990-01-01', 0, NULL, 0, NULL),
+(4, 'test2', '$2y$10$uLVNKOaPnjHpO9J2CeaDtuYqtK2eCHdfg9/2E6T4G8MUj18AVsUL.', 'test2', 'test2@gmail.com', '1990-01-01', 0, NULL, 0, NULL),
+(5, 'test3', '$2y$10$uzSjNJWfX4ECWBkqjiQIOeLfk/NhrJTtrmuVgSI3ePqMoN8hS1Usi', 'test3', 'test3@gmail.com', '1990-01-01', 0, NULL, 0, NULL),
+(6, 'test4', '$2y$10$TMFDE5p6JJpcOPoKG4mlyeZvHOXwJ2UD1qVASRgrKrQiZlzADXQ2q', 'test4', 'test4@gmail.com', '1990-01-01', 0, NULL, 0, NULL),
+(7, 'test5', '$2y$10$9R6/RBgvXsuud/l84LOm4.ux3hG6FIpE6yLXtwMjAqDbnG.ubNDq2', 'test5', 'test5@gmail.com', '1990-01-01', 0, NULL, 0, NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -192,31 +217,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `project_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `projects_has_users`
 --
 ALTER TABLE `projects_has_users`
-  MODIFY `pxu_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `pxu_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT cho bảng `sub_tasks`
 --
 ALTER TABLE `sub_tasks`
-  MODIFY `sub_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `sub_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `task_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
