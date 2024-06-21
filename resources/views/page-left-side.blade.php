@@ -9,10 +9,10 @@
         <div class="collapse navbar-collapse w-100" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex flex-column w-100">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('dashboard')}}"><h3 class="h3 font-weight-bold text-dark"><i class="fa fa-home mr-1" aria-hidden="true"></i> Dashboard</h3></a>
+                    <a class="nav-link" href="{{route('dashboard')}}"><h3 class="h3 font-weight-bold text-dark"><i class="fa fa-home mr-1" aria-hidden="true"></i>Projects </h3></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><h3 class="h3 font-weight-bold text-dark"><i class="fa fa-book mr-1 " aria-hidden="true"></i> Dự án của tôi</h3></a>
+                    <a class="nav-link" href="#"><h3 class="h3 font-weight-bold text-dark"><i class="fa fa-book mr-1 " aria-hidden="true"></i>Schedule</h3></a>
                 </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="#"><h3 class="h3 font-weight-bold"><i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất</h3></a>

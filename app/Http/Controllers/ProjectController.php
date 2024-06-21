@@ -123,7 +123,7 @@ class ProjectController extends Controller
         // Log::info('test', [$pxus]);
         // Log::info('test', [$manager_pxu_id]);
         // Log::info('test', [$curr_pxu_id]);
-        // Log::info('test', [$curuser]);
+        // Log::info('test', [$project]);
         return view('project', [
             'projectObj' => $project,
             'pxus' => $pxus,
@@ -193,8 +193,10 @@ class ProjectController extends Controller
         $project_id = $request->input('id');
         $keyword = trim(strtolower($keyword));
         $joinedUserIds = getJoinedUserIds($project_id);
-
-        $users = User::whereNotIn('user_id', $joinedUserIds)->whereRaw('LOWER(user_fullname) LIKE ?', "%${keyword}%")->get();
+        $curuser = Auth::user();
+        $users = User::whereNotIn('user_id', $joinedUserIds)
+                        ->whereRaw('LOWER(user_fullname) LIKE ?', "%${keyword}%")
+                        ->where('user_office', $curuser->user_office)->get();
         return ($users);
     }
 

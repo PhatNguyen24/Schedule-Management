@@ -19,8 +19,8 @@
                     {{$currUser->user_fullname}}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right mr-3" aria-labelledby="username-menu">
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-address-card-o" aria-hidden="true"></i> Hồ sơ</a>
+                    <a class="dropdown-item" href="{{route('userinfo')}}">
+                        <i class="fa fa-address-card-o" aria-hidden="true" ></i> Hồ sơ</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('auth.logout') }}">
                         <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất

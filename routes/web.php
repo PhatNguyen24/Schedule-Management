@@ -23,6 +23,7 @@ Route::group(['prefix' => '/'], function () {
         ]
     ]);
     Route::get('/search', 'DashboardController@searchProject')->name('dashboard.search');
+    Route::get('/userinfo', 'UserController@info')->name('userinfo');
 });
 
 

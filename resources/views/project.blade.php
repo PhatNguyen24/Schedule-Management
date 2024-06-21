@@ -110,7 +110,7 @@
                             @if ($projectObj->project_manager_id == $curuser->user_id || $currPXU == $task['projects_has_users']['pxu_id'])
                             
                             <div class="col-md-3 mb-2">
-                                @if ($currPXU == $managerPXU)
+                                @if ($projectObj->project_manager_id == $curuser->user_id)
                                     <a href="javascript:void(0)" onclick="remove_task(this)"
                                        class="btn-task-remove rounded py-1 px-2 rounded-circle bg-danger text-white">
                                         <i class="fa fa-remove" aria-hidden="true"></i>
