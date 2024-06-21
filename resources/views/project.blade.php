@@ -48,7 +48,9 @@
                         <h3 class="border-bottom p-2 d-flex justify-content-between">
                             <span>Nhân sự</span>
                             <a href="#modal-add-employee" data-toggle="modal">
+                                @if ($currPXU == $managerPXU)
                                 <i class="fa fa-user-plus text-success" aria-hidden="true"></i>
+                                @endif
                             </a>
                         </h3>
                         <!-- Title -->
@@ -94,9 +96,11 @@
                                  aria-valuemin="0" aria-valuemax="100">Tiến độ {{$projectObj->project_process}}%
                             </div>
                         </span>
+                        @if ($currPXU == $managerPXU)
                         <a id="btn-modal-add-task" href="" data-toggle="modal">
                             <i class="fa fa-plus-circle text-success" aria-hidden="true"></i>
                         </a>
+                        @endif
                     </h3>
 
                     <div id="tasks-area" class="row py-2">
@@ -363,8 +367,12 @@
                             <div class="">
                                 <div class="form-group">
                                     <label for="task_name">Tên công việc</label>
-                                    <input type="text" class="form-control" name="task_name" id="edit_task_name"
-                                           required>
+                                    <input type="text" class="form-control" name="task_name" id="edit_task_name" required
+                                        @if ($currPXU != $managerPXU)
+                                            readonly
+                                        @endif
+                                    >
+
                                 </div>
                             </div>
                             <div class="row">
@@ -373,6 +381,7 @@
                                         <label for="task_state">Trạng thái</label>
                                         <select class="custom-select" name="task_state" id="edit_task_state">
                                             <option value="0" selected>Đang thực hiện</option>
+                                            {{-- <option value="0.5" selected>Gần xong</option> --}}
                                             <option value="1">Hoàn thành</option>
                                         </select>
                                     </div>
@@ -381,13 +390,20 @@
                                     <div class="form-group">
                                         <label for="task_deadline">Thời hạn</label>
                                         <input type="date" class="form-control pl-1 pr-0" name="task_deadline"
-                                               id="edit_task_deadline" required>
+                                               id="edit_task_deadline" required
+                                               @if ($currPXU != $managerPXU)
+                                                readonly
+                                                @endif>
                                     </div>
                                 </div>
 
                             </div>
-                            <div id="edit_form-group-employees" class="form-group border-bottom pb-3">
-                                <label for="pxu_id_name">Người phụ trách</label>
+                            {{-- @if ($currPXU == $managerPXU) --}}
+                            <div id="edit_form-group-employees" class="form-group border-bottom pb-3"
+                            @if ($currPXU != $managerPXU)
+                                                style="display: none;"
+                                                @endif>>
+                                <label for="pxu_id_name"> Người phụ trách</label>
                                 <a id="edit_collapse-tasks" class="" data-toggle="collapse"
                                    href="#edit_available-employees"
                                    aria-expanded="false"
@@ -404,6 +420,7 @@
                                     </div>
                                 </div>{{-- end available employees area --}}
                             </div>
+                            {{-- @endif --}}
                             <div edit_="edit_task-progress" class="progress mb- d-none">
                                 <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
                                      aria-valuemin="0" aria-valuemax="100">25%
@@ -411,6 +428,7 @@
                             </div>
                             <div id="edit_task-subtasks" class="form-group">
                                 <label for="task_name">Mục tiêu</label>
+                                @if ($currPXU == $managerPXU)
                                 <div class="input-group input-group-sm">
                                     <input type="text" name="sub_task_name" id="edit_sub_task_name" class="form-control"
                                            placeholder="Thêm mục tiêu">
@@ -418,8 +436,12 @@
                                         <a class="btn btn-success text-light" id="edit_btn-add-subtask">Thêm</a>
                                     </div>
                                 </div>
+                                @endif
                             </div>
-                            <ul id="area-add-tasks" class="list-group border rounded">
+                            <ul id="area-add-tasks" class="list-group border rounded" 
+                            @if ($currPXU == $managerPXU)
+                            
+                                                @endif>
                             </ul>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -517,12 +539,19 @@
                 } else {
                     $('#fm-edit-task #edit_task_state').val(0);
                 }
+                
                 let oldstask = $(elem).find('.list-group-item');
                 $('#fm-edit-task #area-add-tasks').html('');
                 for (const task of oldstask) {
+                    let deleteButton = ''; // Khởi tạo deleteButton mặc định là chuỗi rỗng
+
+                    // Kiểm tra điều kiện nếu currPXU bằng managerPXU thì mới hiển thị nút X để xoá
+                    if (currPXU == managerPXU) {
+                            deleteButton = '<a href="#" onclick="removeSubTask(this)" class="badge badge-danger d-flex align-items-center p-2">X</a>';
+                    }
                     $('#fm-edit-task #area-add-tasks').append('<li  class="sub-task list-group-item border-0 d-flex justify-content-between">'
                         + '<input class="border-0 w-100" type="text" name="old_sub_task[' + $(task).attr('data-subtask-id') + ']" value="' + $(task).text() + '">'
-                        + '<a href="#" onclick="removeSubTask(this)" class="badge badge-danger d-flex align-items-center p-2">X</a>'
+                        + deleteButton
                         + '</li>'
                     );
                 }

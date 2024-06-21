@@ -122,7 +122,7 @@ class ProjectController extends Controller
 
         // Log::info('test', [$pxus]);
         // Log::info('test', [$manager_pxu_id]);
-        Log::info('test', [$tasksWithPxu]);
+        // Log::info('test', [$tasksWithPxu]);
         return view('project', [
             'projectObj' => $project,
             'pxus' => $pxus,
