@@ -100,7 +100,11 @@
                     </h3>
 
                     <div id="tasks-area" class="row py-2">
-                        @foreach($tasks as $task)
+                        {{-- {{ dd($tasksWithPxus) }} --}}
+                        {{-- {{ dd($currPXU) }} --}}
+                        @foreach($tasksWithPxus as $task)
+                            @if ($currPXU == $managerPXU || $currPXU == $task['projects_has_users']['pxu_id'])
+                            
                             <div class="col-md-3 mb-2">
                                 @if ($currPXU == $managerPXU)
                                     <a href="javascript:void(0)" onclick="remove_task(this)"
@@ -138,13 +142,14 @@
                                                         <li class="list-group-item"
                                                             data-subtask-id="{{$subtask['sub_id']}}">{{$subtask['sub_name']}}</li>
                                                     @endforeach
-                                                    <li class="list-group-item">Disabled item</li>
+                                                    {{-- <li class="list-group-item">Disabled item</li> --}}
                                                 @endif
                                             </ul>
                                         </div>
                                     </div>
                                 </a>
                             </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>

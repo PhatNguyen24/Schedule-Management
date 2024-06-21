@@ -82,6 +82,23 @@ class ProjectController extends Controller
         $project = Project::find($id);
         // Log::info('Project Joined ID:', [$id]); 
         $tasks = Project::with('tasks')->find($id)->getRelations()['tasks']->toArray();
+
+        $pxuIds = array_column($tasks, 'pxu_id');
+
+        // Lấy thông tin từ bảng projects_has_users dựa trên pxu_id
+        $projectsHasUsers = ProjectsXUsers::whereIn('pxu_id', $pxuIds)->get()->keyBy('pxu_id')->toArray();
+
+        // Kết hợp thông tin từ tasks và projects_has_users
+        $tasksWithPxu = array_map(function($task) use ($projectsHasUsers) {
+            if (isset($projectsHasUsers[$task['pxu_id']])) {
+                $task['projects_has_users'] = $projectsHasUsers[$task['pxu_id']];
+            } else {
+                $task['projects_has_users'] = null; // Hoặc có thể gán giá trị khác nếu cần
+            }
+            return $task;
+        }, $tasks);
+
+
         $subtasks = [];
         usort($tasks, function ($a, $b) {
             $time1 = strtotime($a['task_end']);
@@ -96,12 +113,16 @@ class ProjectController extends Controller
         ->get();
 
         // Log::info('Project Joined ID:', [$pxus]); 
-        $manager_pxu_id = ProjectsXUsers::where([['project_id','=',$id],['role','=',1]])->get('pxu_id')->toArray();
+        $manager_pxu_id = ProjectsXUsers::where([['project_id','=',$id],['role','=',1]])->get('pxu_id')->toArray(); // lấy pxu_id của người quản lý
 
-        $curr_pxu_id = ProjectsXUsers::where('user_id',Auth::user()->user_id)->get('pxu_id')->toArray();
-        Log::info('test', [$pxus]);
+        $curr_pxu_id = ProjectsXUsers::where('user_id',Auth::user()->user_id)->get('pxu_id')->toArray(); //lấy pxu_id của người dùng hiện tại
+        $currpr_pxu_id = ProjectsXUsers::where('user_id', Auth::user()->user_id)
+                             ->where('project_id', $id)
+                             ->get('pxu_id'); //lấy pxu_id của người dùng hiện tại trong dự án hiện tại
+
+        // Log::info('test', [$pxus]);
         // Log::info('test', [$manager_pxu_id]);
-        // Log::info('test', [$curr_pxu_id]);
+        Log::info('test', [$tasksWithPxu]);
         return view('project', [
             'projectObj' => $project,
             'pxus' => $pxus,
@@ -109,7 +130,9 @@ class ProjectController extends Controller
             'subtasks' => $subtasks,
             'currUser' => Auth::user(),
             'managerPXU'=>$manager_pxu_id[0]['pxu_id'],
-            'currPXU' => $curr_pxu_id[0]['pxu_id']
+            'currPXU' => $curr_pxu_id[0]['pxu_id'],
+            'currpr_pxu_id' => $currpr_pxu_id,
+            'tasksWithPxus' => $tasksWithPxu
         ]);
     }
 
@@ -262,7 +285,9 @@ class ProjectController extends Controller
     public function delUser(Request $request){
         $data = $request->all();
         Log::info('test:', [$data]); 
-        $pxu = ProjectsXUsers::where('user_id',$data['user_id'])->get('pxu_id')->toArray();
+        $pxu = ProjectsXUsers::where('user_id',$data['user_id'])
+        ->where('project_id', $data['project_id'])
+        ->get('pxu_id')->toArray();
         $task = Task::where('pxu_id',$pxu[0])->get('task_id')->toArray();
         SubTask::whereIn('task_id',$task)->delete();
         Task::where('pxu_id',$pxu[0])->delete();

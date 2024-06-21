@@ -16,4 +16,5 @@ class Task extends Model
     public function pxu(){
         return $this->belongsTo('App\ProjectsXUsers', 'pxu_id', 'pxu_id');
     }
+    
 }
