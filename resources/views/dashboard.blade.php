@@ -22,29 +22,42 @@
             </header>
 
             <div id="project-area" class="row pt-3 pb-2 pr-3 pl-3">
-                @if (count($joinedProjects)>0)
+                @if (count($joinedProjects) > 0)
                     @foreach ($joinedProjects as $project)
                     <div class="col-md-4">
-                        <a href="{{route('project.show',$project->project_id)}}" class=" card mb-3 {{$project->project_process == 100? ' card-complete ':' card-ongoing '}} text-dark rounded-0 border" >
+                        <a href="{{route('project.show', $project->project_id)}}" class="card mb-3 {{$project->project_process == 100 ? 'card-complete' : 'card-ongoing'}} text-dark rounded-0 border">
                             <div class="card-body p-1 p-md-3">
                                 <h5 class="card-title text-truncate mb-0 mb-md-2 fw-600">{{$project->project_name}}</h5>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item pt-1 pb-1 text-muted">
-                                        <i class="fa fa-user-circle-o" aria-hidden="true"> </i><strong class="d-none d-md-inline"> Quản lý:</strong> {{$managers->find($project->project_manager_id)->user_fullname}}
+                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i><strong class="d-none d-md-inline"> Quản lý:</strong> {{$managers->find($project->project_manager_id)->user_fullname}}
                                     </li>
                                     <li class="list-group-item pt-1 pb-1 text-muted">
-                                        <i class="fa fa-calendar-times-o" aria-hidden="true"></i></i><strong class="d-none d-md-inline"> Ngày tạo:</strong> {{converDate($project->project_start_day)}}
+                                        <i class="fa fa-calendar-times-o" aria-hidden="true"></i><strong class="d-none d-md-inline"> Ngày tạo:</strong> {{converDate($project->project_start_day)}}
                                     </li>
                                     <li class="list-group-item pt-1 pb-1 text-muted">
-                                        <i class="fa fa-calendar-times-o" aria-hidden="true"></i></i><strong class="d-none d-md-inline"> Hạn nộp:</strong> {{converDate($project->project_end_day)}}
+                                        <i class="fa fa-calendar-times-o" aria-hidden="true"></i><strong class="d-none d-md-inline"> Hạn nộp:</strong> {{converDate($project->project_end_day)}}
                                     </li>
                                     <li class="list-group-item pt-1 pb-1 text-muted">
-                                            <i class="fa fa-user-circle" aria-hidden="true"></i></i><strong class="d-none d-md-inline"> Nhân lực:</strong> {{$employeeNums[$project->project_id]}}
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i><strong class="d-none d-md-inline"> Nhân lực:</strong> {{$employeeNums[$project->project_id]}}
                                     </li>
                                     <li class="list-group-item pt-3 pb-0">
                                         <div class="progress">
-                                            <div class="progress-bar bg-primary font-weight-bold" role="progressbar" style="width: {{$project->project_process}}%;"
-                                                aria-valuenow="{{$project->project_process}}" aria-valuemin="0" aria-valuemax="100">{{$project->project_process}}%</div>
+                                            <div class="progress-bar font-weight-bold 
+                                                @if($project->project_process == 0)
+                                                    bg-danger
+                                                @elseif($project->project_process == 100)
+                                                    bg-success
+                                                @else
+                                                    bg-primary
+                                                @endif" 
+                                                role="progressbar" 
+                                                style="width: {{$project->project_process}}%;" 
+                                                aria-valuenow="{{$project->project_process}}" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                {{$project->project_process}}%
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
@@ -56,8 +69,11 @@
                     <div class="text-muted text-center w-100"><i>Không tìm thấy dự án nào</i></div>
                 @endif
                 <!-- !End single project -->
-
             </div>
+        </div>
+    <!-- !End single project -->
+</div>
+
         </div>
 </div>
     <div class="modal fade" id="modal-add-project" tabindex="-1" role="dialog" aria-labelledby="Thêm Project" aria-hidden="true">

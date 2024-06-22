@@ -16,7 +16,7 @@
     <div id="page-wrapper" class="w-100 h-100 mt-5 my-md-auto d-flex align-items-center justify-content-center">
         <form action="{{ route('auth.login') }}" method="POST" id="fm-login" class="p-3 text-center shadow rounded">
             @csrf
-            <h1 class="text-primary my-3">Management Schedule</h1>
+            <h1 class="text-primary my-3">Đăng nhập</h1>
             <div class="form-group">
                 <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Tên đăng nhập">
             </div>
