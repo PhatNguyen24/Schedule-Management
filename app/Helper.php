@@ -18,6 +18,12 @@
         $joinedProjectIds = ProjectsXUsers::where('user_id',$user_id)->get('project_id')->implode('project_id',',');
         return explode(',',$joinedProjectIds);
     }
+    function getJoinedProject()
+    {
+        $joinedProjectIds = ProjectsXUsers::get('project_id')->implode('project_id',',');
+        return explode(',',$joinedProjectIds);
+    }
+    
 
      /**
      * Hàm dùng để lấy danh sách id của các user đã tham gia project

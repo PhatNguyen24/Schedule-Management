@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <title>Đăng Nhập</title>
 </head>
-<body class="h-100  bg-light">
+<body class="h-100 bg-light">
     @if ($errors->any())
         {{$errors}}
     @endif
     <div id="page-wrapper" class="w-100 h-100 mt-5 my-md-auto d-flex align-items-center justify-content-center">
         <form action="{{ route('auth.login') }}" method="POST" id="fm-login" class="p-3 text-center shadow rounded">
             @csrf
-            <h1 class="text-primary my-3">TaskShare</h1>
+            <h1 class="text-primary my-3">Management Schedule</h1>
             <div class="form-group">
                 <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Tên đăng nhập">
             </div>
@@ -27,7 +27,6 @@
                 <input name="btn-login" id="btn-login" class="btn btn-outline-success" type="submit" value="Đăng Nhập">
                 <a href="#modal-register" name="btn-register" id="btn-register" class="btn btn-outline-primary" data-toggle="modal">Đăng ký</a>
             </div>
-
         </form>
         <!-- Modal -->
         <div class="modal mx-auto fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -48,7 +47,6 @@
                               <input type="text" required
                                 class="form-control" name="register_user_name" id="register_user_name" aria-describedby="helpId" placeholder="">
                                 <div id="register_user_name_message" class="invalid-feedback"></div>
-                                <!-- TODO: This is for server side, there is another version for browser defaults -->
                             </div>
                             <div class="form-group">
                                 <label for="">Họ tên</label>
@@ -67,15 +65,27 @@
                                 <input type="password" required
                                     class="form-control" name="register_password_confirmation" id="register_password_confirmation" aria-describedby="helpId" placeholder="">
                                     <div id="register_password_confirmation_message" class="invalid-feedback"></div>
-
                             </div>
-
-
                             <div class="form-group">
                                 <label for="">Email</label>
                                 <input type="email" required
                                     class="form-control" name="register_user_email" id="register_user_email" aria-describedby="helpId" placeholder="">
                                 <div id="register_user_email_message" class="invalid-feedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Phòng ban</label>
+                                <select class="form-control" name="register_user_office" id="register_user_office" required>
+                                    <option value="1">Phòng Nhân sự (HR - Human Resources)</option>
+                                    <option value="2">Phòng Tài chính - Kế toán (Finance - Accounting)</option>
+                                    <option value="3">Phòng Kinh doanh (Sales)</option>
+                                    <option value="4">Phòng Marketing</option>
+                                    <option value="5">Phòng Sản xuất (Production)</option>
+                                    <option value="6">Phòng IT (Information Technology)</option>
+                                    <option value="7">Phòng Nghiên cứu và Phát triển (R&D - Research and Development)</option>
+                                    <option value="8">Phòng Hành chính (Administration)</option>
+                                    <option value="9">Phòng Pháp lý (Legal)</option>
+                                    <option value="10">Phòng Chăm sóc Khách hàng (Customer Service)</option>
+                                </select>
                             </div>
                             <input disabled="true" type="submit" id="btn-register-submit" class="btn btn-outline-success" value="Đăng Ký"></button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
@@ -85,7 +95,6 @@
             </div>
         </div>
     </div>{{-- End Wrapper --}}
-
 </body>
 @include('js')
 
@@ -162,8 +171,6 @@
             }
         }
         isValidated();
-
-    // End script
     });
     </script>
 </html>

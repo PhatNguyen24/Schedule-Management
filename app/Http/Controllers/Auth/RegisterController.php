@@ -71,7 +71,8 @@ class RegisterController extends Controller
             'user_name' => $data['user_name'],
             'user_email' => $data['user_email'],
             'password' => Hash::make($data['password']),
-            'user_fullname' => $data['user_fullname']
+            'user_fullname' => $data['user_fullname'],
+            'user_office' => $data['user_office']
         ]);
     }
 
@@ -82,8 +83,10 @@ class RegisterController extends Controller
             'user_email' => $request->register_user_email,
             'password' => $request->register_password,
             'password_confirmation' => $request->register_password_confirmation,
-            'user_fullname' => $request->register_fullname
+            'user_fullname' => $request->register_fullname,
+            'user_office' => $request->register_user_office
         ];
+        
         $validation = $this->validator($data);
         if ($validation->fails()) {
             return redirect(route('auth.login'))->withErrors($validation);

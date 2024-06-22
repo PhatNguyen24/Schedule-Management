@@ -23,8 +23,14 @@ Route::group(['prefix' => '/'], function () {
         ]
     ]);
     Route::get('/search', 'DashboardController@searchProject')->name('dashboard.search');
-    Route::get('/userinfo', 'UserController@info')->name('userinfo');
+    
+    // Route::put('/userinfo/update', 'UserController@update')->name('userinfo.update');
+
 });
+// Route::put('/user/{user_id}', [UserController::class, 'update'])->name('user.update');
+Route::resource('userinfo','UserController');
+Route::any('/userinfo', 'UserController@info')->name('userinfo');
+Route::put('/userinfo/update/{id}', [UserController::class, 'update'])->name('userinfo.update');
 
 
 Route::resource('project','ProjectController');

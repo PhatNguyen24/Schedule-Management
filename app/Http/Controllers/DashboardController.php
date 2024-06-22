@@ -29,8 +29,12 @@ class DashboardController extends Controller
     {
         $currUser = Auth::user(); //lấy thông tin người dùng đăng nhập
         // Log::info('Current User:', [$currUser]); 
-
+        if ($currUser->user_role == 2) {
+            // Nếu là admin, lấy tất cả các project
+            $projectJoinedIds = getJoinedProject();
+        } else {
         $projectJoinedIds = getJoinedProjectIds($currUser->user_id); // lấy danh sách id dự án của 1 người dùng
+        }
         Log::info('Project Joined ID:', [$projectJoinedIds]); 
         $joinedProjects = Project::find($projectJoinedIds) or null; // lấy danh sách các dự án của 1 người dùng (từ danh sách id)
         Log::info('Joined Project:', [$joinedProjects]); 

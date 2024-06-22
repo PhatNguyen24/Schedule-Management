@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // Import the Log facade
 
 class UserController extends Controller
 {
@@ -26,5 +27,20 @@ class UserController extends Controller
 
         // Trả về view với dữ liệu user
         return view('userinfo', ['currUser' => $user]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // $user = User::find($id);
+        Log::info('Current User:', ['id' => $id]); 
+        // $user->user_name = $request->input('user_name');
+        // $user->password = bcrypt($request->input('password')); // Encrypt the password
+        // $user->user_fullname = $request->input('user_fullname');
+        // $user->user_email = $request->input('user_email');
+        // $user->user_birth = $request->input('user_birth');
+        // $user->user_gender = $request->input('user_gender');
+        // $user->user_office = $request->input('user_office'); // Ensure this field is processed
+        // $user->save();
+        // return redirect()->back();
     }
 }
