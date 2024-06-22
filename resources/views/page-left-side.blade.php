@@ -1,4 +1,4 @@
-<div id="page-left-side" class="col-lg-2 text-dark h-100 p-0">
+<div id="page-left-side" class="col-lg-2 text-dark h-100 p-0 shadow">
     <h3 class="font-weight-bold text-center p-2 d-none d-md-block">Management Schedule</h3>
     <nav class="navbar navbar-expand-lg navbar-light d-md-flex flex-md-column">
         <a class="navbar-brand border-bottom d-block d-md-none" href="#">Management Schedule/a>
@@ -14,9 +14,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><h3 class="h3 font-weight-bold text-dark"><i class="fa fa-book mr-1 " aria-hidden="true"></i>Schedule</h3></a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="#"><h3 class="h3 font-weight-bold"><i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất</h3></a>
-                </li> --}}
             </ul>
         </div>
     </nav>
