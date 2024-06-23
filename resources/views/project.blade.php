@@ -91,10 +91,10 @@
                     <h3 class="border-bottom p-2 d-flex justify-content-between align-items-center">
                         <span>Công việc</span>
                         <span class="progress progress-bar-striped border " style="min-width: 150px; height: 20px">
-                            <div class="progress-bar bg-success text-light" role="progressbar" style="width: {{$projectObj->project_process}}%;"
-                                 aria-valuenow="{{$projectObj->project_process}}"
-                                 aria-valuemin="0" aria-valuemax="100">Tiến độ {{$projectObj->project_process}}%
-                            </div>
+                            <div class="progress-bar bg-success text-dark" role="progressbar" style="width: {{$projectObj->project_process}}%;"
+                                aria-valuenow="{{$projectObj->project_process}}"
+                                aria-valuemin="0" aria-valuemax="100">Tiến độ {{$projectObj->project_process}}%
+                           </div>                           
                         </span>
                         @if ($curuser->user_id == $projectObj->project_manager_id)
                         <a id="btn-modal-add-task" href="" data-toggle="modal">

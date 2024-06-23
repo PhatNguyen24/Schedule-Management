@@ -7,10 +7,10 @@
                         <i class="fa fa-bell-o font-weight-bold" aria-hidden="true"></i>
                     </a>
                     <div class="dropdown-menu mr-3 dropdown-menu-right" style="min-width:19.5rem;" aria-labelledby="noti-menu">
-                        <a class="dropdown-item" href="#" style="word-wrap: break-word; white-space: pre-line">Bạn có lời mời tham gia dự án <strong>project1</strong> bởi <strong>Nguyễn Đại Phát</strong></a>
+                        <a class="dropdown-item" href="#" style="word-wrap: break-word; white-space: pre-line">Bạn có lời mời tham gia dự án <strong> Tuyển nhân viên T7/2024 </strong> bởi <strong> Nguyễn Đại Phát</strong></a>
 
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" style="word-wrap: break-word; white-space: pre-line">Còn <strong>3 ngày</strong> nữa công việc của bạn trong dự án <strong>project1</strong> tới thời hạn</a>
+                        <a class="dropdown-item" href="#" style="word-wrap: break-word; white-space: pre-line">Còn <strong>7 ngày</strong> nữa công việc của bạn trong dự án <strong>Tuyển nhân viên T7/2024</strong> tới thời hạn</a>
                     </div>
                 </div>
             <div class="dropdown">
